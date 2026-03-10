@@ -1,0 +1,175 @@
+{
+  "manifest_version": "0.3",
+  "name": "azure-devops",
+  "display_name": "Azure DevOps",
+  "version": "2.4.0",
+  "description": "MCP server for interacting with Azure DevOps — manage projects, repositories, pull requests, work items, pipelines, wikis, test plans, and more directly from your AI assistant.",
+  "long_description": "The Azure DevOps MCP server brings the full power of Azure DevOps directly into AI-powered editors and agents. It provides 60+ tools organized across 9 functional domains:\n\n- **Core**: List projects, teams, and search identities\n- **Repositories**: Manage repos, branches, pull requests, commits, and file browsing\n- **Work Items**: Create, update, query, and link work items with full backlog support\n- **Pipelines**: Manage builds, pipeline definitions, runs, logs, and artifacts\n- **Wiki**: Browse, read, and edit wiki pages\n- **Test Plans**: Create and manage test plans, suites, and test cases\n- **Search**: Search code, wiki pages, and work items\n- **Work**: Manage iterations, team assignments, and capacities\n- **Advanced Security**: View repository security alerts\n\nSupports multiple authentication methods including interactive OAuth, Azure CLI, environment variables, and token-based authentication. Domains can be selectively enabled to reduce tool count for optimal AI model performance.",
+  "author": {
+    "name": "Microsoft Corporation",
+    "url": "https://github.com/microsoft/azure-devops-mcp"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/microsoft/azure-devops-mcp"
+  },
+  "homepage": "https://learn.microsoft.com/en-us/azure/devops/mcp-server/mcp-server-overview",
+  "support": "https://github.com/microsoft/azure-devops-mcp/issues",
+  "keywords": [
+    "azure",
+    "devops",
+    "azure-devops",
+    "microsoft",
+    "repositories",
+    "pull-requests",
+    "work-items",
+    "pipelines",
+    "wiki",
+    "test-plans",
+    "ci-cd",
+    "project-management"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.js",
+        "${user_config.organization}"
+      ],
+      "env": {}
+    }
+  },
+  "user_config": {
+    "organization": {
+      "type": "string",
+      "title": "Azure DevOps Organization",
+      "description": "Your Azure DevOps organization name (e.g. 'contoso')",
+      "required": true
+    },
+    "domains": {
+      "type": "string",
+      "title": "Enabled Domains",
+      "description": "Space-separated list of domains to enable (e.g. 'core repositories work-items'). Leave empty for all domains.",
+      "required": false,
+      "default": "all"
+    },
+    "authentication": {
+      "type": "string",
+      "title": "Authentication Method",
+      "description": "Authentication method: 'interactive' (OAuth via browser), 'azcli' (Azure CLI), 'env' (Azure SDK DefaultAzureCredential), or 'envvar' (ADO_MCP_AUTH_TOKEN environment variable)",
+      "required": false,
+      "default": "interactive"
+    },
+    "tenant": {
+      "type": "string",
+      "title": "Azure Tenant ID",
+      "description": "Optional Azure tenant ID for multi-tenant scenarios",
+      "required": false
+    },
+    "auth_token": {
+      "type": "string",
+      "title": "Authentication Token",
+      "description": "Azure DevOps personal access token (required when authentication is set to 'envvar')",
+      "required": false,
+      "sensitive": true
+    }
+  },
+  "tools": [
+    { "name": "mcp_ado_advsec_get_alerts", "description": "Retrieve Advanced Security alerts for a repository" },
+    { "name": "mcp_ado_advsec_get_alert_details", "description": "Get detailed information about a specific security alert" },
+    { "name": "mcp_ado_core_list_projects", "description": "List all projects in the organization" },
+    { "name": "mcp_ado_core_list_project_teams", "description": "List teams within a project" },
+    { "name": "mcp_ado_core_get_identity_ids", "description": "Retrieve identity IDs by search filter" },
+    { "name": "mcp_ado_pipelines_create_pipeline", "description": "Create a new pipeline with YAML configuration" },
+    { "name": "mcp_ado_pipelines_get_builds", "description": "Retrieve a list of builds with optional filters" },
+    { "name": "mcp_ado_pipelines_get_build_status", "description": "Get the status of a specific build" },
+    { "name": "mcp_ado_pipelines_get_build_log", "description": "Retrieve complete logs for a build" },
+    { "name": "mcp_ado_pipelines_get_build_log_by_id", "description": "Get a specific build log by log ID" },
+    { "name": "mcp_ado_pipelines_get_build_changes", "description": "Get changes (commits) associated with a build" },
+    { "name": "mcp_ado_pipelines_get_build_definitions", "description": "List build/pipeline definitions in a project" },
+    { "name": "mcp_ado_pipelines_get_build_definition_revisions", "description": "Get revision history of a build definition" },
+    { "name": "mcp_ado_pipelines_run_pipeline", "description": "Start a new pipeline run with optional parameters" },
+    { "name": "mcp_ado_pipelines_get_run", "description": "Get details of a specific pipeline run" },
+    { "name": "mcp_ado_pipelines_list_runs", "description": "List recent runs for a pipeline" },
+    { "name": "mcp_ado_pipelines_update_build_stage", "description": "Update a build stage (cancel, retry, or run)" },
+    { "name": "mcp_ado_pipelines_list_artifacts", "description": "List artifacts for a given build" },
+    { "name": "mcp_ado_pipelines_download_artifact", "description": "Download a pipeline artifact" },
+    { "name": "mcp_ado_repo_list_repos_by_project", "description": "List all repositories in a project" },
+    { "name": "mcp_ado_repo_get_repo_by_name_or_id", "description": "Get repository details by name or ID" },
+    { "name": "mcp_ado_repo_list_branches_by_repo", "description": "List all branches in a repository" },
+    { "name": "mcp_ado_repo_list_my_branches_by_repo", "description": "List branches created by current user" },
+    { "name": "mcp_ado_repo_get_branch_by_name", "description": "Get details of a specific branch" },
+    { "name": "mcp_ado_repo_create_branch", "description": "Create a new branch from a source branch" },
+    { "name": "mcp_ado_repo_search_commits", "description": "Search for commits with comprehensive filters" },
+    { "name": "mcp_ado_repo_list_pull_requests_by_repo_or_project", "description": "List pull requests with optional filters" },
+    { "name": "mcp_ado_repo_list_pull_requests_by_commits", "description": "Find pull requests containing specific commits" },
+    { "name": "mcp_ado_repo_get_pull_request_by_id", "description": "Get details of a specific pull request" },
+    { "name": "mcp_ado_repo_create_pull_request", "description": "Create a new pull request" },
+    { "name": "mcp_ado_repo_update_pull_request", "description": "Update pull request properties and settings" },
+    { "name": "mcp_ado_repo_update_pull_request_reviewers", "description": "Add or remove reviewers from a pull request" },
+    { "name": "mcp_ado_repo_vote_pull_request", "description": "Cast a vote on a pull request" },
+    { "name": "mcp_ado_repo_list_pull_request_threads", "description": "List comment threads on a pull request" },
+    { "name": "mcp_ado_repo_list_pull_request_thread_comments", "description": "List comments in a specific thread" },
+    { "name": "mcp_ado_repo_create_pull_request_thread", "description": "Create a new comment thread on a pull request" },
+    { "name": "mcp_ado_repo_update_pull_request_thread", "description": "Update an existing pull request comment thread" },
+    { "name": "mcp_ado_repo_reply_to_comment", "description": "Reply to a pull request comment" },
+    { "name": "mcp_ado_repo_list_directory", "description": "List files and folders in a directory" },
+    { "name": "mcp_ado_search_code", "description": "Search for code across repositories" },
+    { "name": "mcp_ado_search_wiki", "description": "Search wiki pages by keywords" },
+    { "name": "mcp_ado_search_workitem", "description": "Search work items by text and filters" },
+    { "name": "mcp_ado_testplan_list_test_plans", "description": "List test plans in a project" },
+    { "name": "mcp_ado_testplan_create_test_plan", "description": "Create a new test plan" },
+    { "name": "mcp_ado_testplan_list_test_suites", "description": "List test suites in a test plan" },
+    { "name": "mcp_ado_testplan_create_test_suite", "description": "Create a test suite within a test plan" },
+    { "name": "mcp_ado_testplan_add_test_cases_to_suite", "description": "Add test cases to a test suite" },
+    { "name": "mcp_ado_testplan_list_test_cases", "description": "List test cases in a test suite" },
+    { "name": "mcp_ado_testplan_create_test_case", "description": "Create a new test case work item" },
+    { "name": "mcp_ado_testplan_update_test_case_steps", "description": "Update steps of an existing test case" },
+    { "name": "mcp_ado_testplan_show_test_results_from_build_id", "description": "Get test results for a specific build" },
+    { "name": "mcp_ado_wiki_list_wikis", "description": "List wikis in organization or project" },
+    { "name": "mcp_ado_wiki_get_wiki", "description": "Get details of a specific wiki" },
+    { "name": "mcp_ado_wiki_list_pages", "description": "List pages in a wiki" },
+    { "name": "mcp_ado_wiki_get_page", "description": "Get wiki page metadata (without content)" },
+    { "name": "mcp_ado_wiki_get_page_content", "description": "Retrieve wiki page content" },
+    { "name": "mcp_ado_wiki_create_or_update_page", "description": "Create or update a wiki page" },
+    { "name": "mcp_ado_wit_get_work_item", "description": "Get a work item by ID" },
+    { "name": "mcp_ado_wit_get_work_items_batch_by_ids", "description": "Retrieve multiple work items by IDs" },
+    { "name": "mcp_ado_wit_create_work_item", "description": "Create a new work item" },
+    { "name": "mcp_ado_wit_update_work_item", "description": "Update fields of a work item" },
+    { "name": "mcp_ado_wit_update_work_items_batch", "description": "Update multiple work items in batch" },
+    { "name": "mcp_ado_wit_add_child_work_items", "description": "Create child work items under a parent" },
+    { "name": "mcp_ado_wit_work_items_link", "description": "Link work items together" },
+    { "name": "mcp_ado_wit_work_item_unlink", "description": "Remove links from a work item" },
+    { "name": "mcp_ado_wit_add_artifact_link", "description": "Link artifacts (commits, builds, PRs) to work items" },
+    { "name": "mcp_ado_wit_link_work_item_to_pull_request", "description": "Link a work item to a pull request" },
+    { "name": "mcp_ado_wit_list_work_item_comments", "description": "List comments on a work item" },
+    { "name": "mcp_ado_wit_add_work_item_comment", "description": "Add a comment to a work item" },
+    { "name": "mcp_ado_wit_list_work_item_revisions", "description": "Get revision history of a work item" },
+    { "name": "mcp_ado_wit_get_work_item_type", "description": "Get details of a work item type" },
+    { "name": "mcp_ado_wit_my_work_items", "description": "List work items relevant to current user" },
+    { "name": "mcp_ado_wit_get_work_items_for_iteration", "description": "Get work items in a specific iteration" },
+    { "name": "mcp_ado_wit_list_backlogs", "description": "List backlogs for a team" },
+    { "name": "mcp_ado_wit_list_backlog_work_items", "description": "Get work items in a backlog" },
+    { "name": "mcp_ado_wit_get_query", "description": "Get a work item query by ID or path" },
+    { "name": "mcp_ado_wit_get_query_results_by_id", "description": "Execute a query and get results" },
+    { "name": "mcp_ado_work_list_iterations", "description": "List all iterations in a project" },
+    { "name": "mcp_ado_work_create_iterations", "description": "Create new iterations in a project" },
+    { "name": "mcp_ado_work_list_team_iterations", "description": "List iterations assigned to a team" },
+    { "name": "mcp_ado_work_assign_iterations", "description": "Assign iterations to a team" },
+    { "name": "mcp_ado_work_get_iteration_capacities", "description": "Get capacity for all teams in an iteration" },
+    { "name": "mcp_ado_work_get_team_capacity", "description": "Get capacity for a specific team in iteration" },
+    { "name": "mcp_ado_work_update_team_capacity", "description": "Update team member capacity for iteration" }
+  ],
+  "tools_generated": true,
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "privacy_policies": [
+    "https://privacy.microsoft.com/en-us/privacystatement"
+  ]
+}
