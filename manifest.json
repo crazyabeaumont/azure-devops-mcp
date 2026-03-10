@@ -16,20 +16,7 @@
   },
   "homepage": "https://learn.microsoft.com/en-us/azure/devops/mcp-server/mcp-server-overview",
   "support": "https://github.com/microsoft/azure-devops-mcp/issues",
-  "keywords": [
-    "azure",
-    "devops",
-    "azure-devops",
-    "microsoft",
-    "repositories",
-    "pull-requests",
-    "work-items",
-    "pipelines",
-    "wiki",
-    "test-plans",
-    "ci-cd",
-    "project-management"
-  ],
+  "keywords": ["azure", "devops", "azure-devops", "microsoft", "repositories", "pull-requests", "work-items", "pipelines", "wiki", "test-plans", "ci-cd", "project-management"],
   "server": {
     "type": "node",
     "entry_point": "server/index.js",
@@ -37,9 +24,17 @@
       "command": "node",
       "args": [
         "${__dirname}/server/index.js",
-        "${user_config.organization}"
+        "${user_config.organization}",
+        "--authentication",
+        "${user_config.authentication}",
+        "--domains",
+        "${user_config.domains}",
+        "--tenant",
+        "${user_config.tenant}"
       ],
-      "env": {}
+      "env": {
+        "ADO_MCP_AUTH_TOKEN": "${user_config.auth_token}"
+      }
     }
   },
   "user_config": {
@@ -170,7 +165,5 @@
       "node": ">=18.0.0"
     }
   },
-  "privacy_policies": [
-    "https://privacy.microsoft.com/en-us/privacystatement"
-  ]
+  "privacy_policies": ["https://privacy.microsoft.com/en-us/privacystatement"]
 }

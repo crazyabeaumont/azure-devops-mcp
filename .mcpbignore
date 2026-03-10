@@ -1,7 +1,11 @@
+# Source files (compiled output in server/ is what we need)
+src/
+scripts/
+
 # Large media files
 docs/media/
 
-# Development files
+# Development/config files
 test/
 .github/
 .azuredevops/
@@ -11,13 +15,27 @@ test/
 eslint-rules/
 eslint.config.mjs
 jest.config.cjs
+tsconfig.json
 tsconfig.jest.json
 .prettierrc.json
 .gitattributes
+.gitignore
+.mcpbignore
 
-# Build output (not needed - server/ will be populated at pack time)
-node_modules/
-dist/
+# Dev dependencies not needed at runtime
+node_modules/.package-lock.json
+node_modules/@types/
+node_modules/typescript/
+node_modules/ts-jest/
+node_modules/jest/
+node_modules/jest-extended/
+node_modules/prettier/
+node_modules/eslint*/
+node_modules/husky/
+node_modules/lint-staged/
+node_modules/shx/
+node_modules/tsconfig-paths/
+node_modules/glob/
 
 # Other non-essential files
 *.mcpb
@@ -25,3 +43,6 @@ CONTRIBUTING.md
 CODE_OF_CONDUCT.md
 SECURITY.md
 SUPPORT.md
+server.json
+mcp.json
+docs/

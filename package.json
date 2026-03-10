@@ -35,7 +35,8 @@
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "clean": "shx rm -rf dist",
-    "test": "jest"
+    "test": "jest",
+    "build:mcpb": "bash scripts/build-mcpb.sh"
   },
   "dependencies": {
     "@azure/identity": "^4.10.0",
